@@ -8,8 +8,8 @@ group = "org.springframework.data"
 version = "$sdRestVersion"
 archivesBaseName = "spring-data-rest-webmvc"
 
-project.sourceCompatibility = 1.6
-project.targetCompatibility = 1.6
+project.sourceCompatibility = 1.8
+project.targetCompatibility = 1.8
 
 configurations.all {
   exclude group: "commons-logging"
@@ -18,16 +18,12 @@ configurations.all {
 }
 
 buildscript {
-  repositories {
-    add(new org.apache.ivy.plugins.resolver.URLResolver()) {
-      name = 'GitHub'
-      addArtifactPattern 'http://cloud.github.com/downloads/[organisation]/[module]/[module]-[revision].[ext]'
+    repositories {
+	jcenter()
     }
-  }
-
-  dependencies {
-    classpath 'bmuschko:gradle-tomcat-plugin:0.9.5'
-  }
+    dependencies {
+        classpath 'org.gradle.api.plugins:gradle-tomcat-plugin:1.2.4'
+    }
 }
 
 repositories {
@@ -50,7 +46,7 @@ dependencies {
 
   // Spring
   compile("org.springframework:spring-aop:$springVersion") { force = true }
-  compile("org.springframework:spring-asm:$springVersion") { force = true }
+  //compile("org.springframework:spring-asm:$springVersion") { force = true }
   compile("org.springframework:spring-beans:$springVersion") { force = true }
   compile("org.springframework:spring-context:$springVersion") { force = true }
   compile("org.springframework:spring-core:$springVersion") { force = true }
@@ -62,7 +58,7 @@ dependencies {
   compile "javax.inject:javax.inject:1"
 
   // Spring Data
-  compile "org.springframework.data:spring-data-commons-core:$sdCommonsVersion"
+  compile "org.springframework.data:spring-data-commons:$sdCommonsVersion"
   compile "org.springframework.data:spring-data-jpa:$sdJpaVersion"
 
   // Spring Data REST
@@ -82,8 +78,8 @@ task wrapper(type: Wrapper) { gradleVersion = "1.1" }
 
 idea {
   project {
-    jdkName = "1.6"
-    languageLevel = "1.6"
+    jdkName = "1.8"
+    languageLevel = "1.8"
     ipr {
       withXml { xml ->
         xml.node.component.find { it.@name == "VcsDirectoryMappings" }.mapping.@vcs = "Git"
