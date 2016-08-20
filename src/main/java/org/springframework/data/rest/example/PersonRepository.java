@@ -11,8 +11,7 @@ import org.springframework.data.rest.core.annotation.RestResource;
 /**
  * @author Jon Brisbin <jon@jbrisbin.com>
  */
-@RepositoryRestResource(path = "people")
-//@RestResource(path = "people")
+@RestResource(path = "people")
 public interface PersonRepository extends PagingAndSortingRepository<Person, Long> {
 
   @RestResource(path = "name", rel = "names")
