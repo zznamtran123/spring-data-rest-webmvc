@@ -1,60 +1,33 @@
 package org.springframework.data.rest.example;
 
-import javax.persistence.EntityManagerFactory;
-import javax.sql.DataSource;
+import java.util.Arrays;
+import java.util.HashMap;
+import java.util.Map;
+import javax.annotation.PostConstruct;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.boot.SpringApplication;
+import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.boot.web.support.SpringBootServletInitializer;
 
-import org.springframework.context.annotation.Bean;
-import org.springframework.context.annotation.ComponentScan;
-import org.springframework.context.annotation.Configuration;
-import org.springframework.data.jpa.repository.config.EnableJpaRepositories;
-import org.springframework.jdbc.datasource.embedded.EmbeddedDatabaseBuilder;
-import org.springframework.jdbc.datasource.embedded.EmbeddedDatabaseType;
-import org.springframework.orm.jpa.JpaDialect;
-import org.springframework.orm.jpa.JpaTransactionManager;
-import org.springframework.orm.jpa.LocalContainerEntityManagerFactoryBean;
-import org.springframework.orm.jpa.vendor.Database;
-import org.springframework.orm.jpa.vendor.HibernateJpaDialect;
-import org.springframework.orm.jpa.vendor.HibernateJpaVendorAdapter;
-import org.springframework.transaction.PlatformTransactionManager;
-import org.springframework.transaction.annotation.EnableTransactionManagement;
+@SpringBootApplication
+public class ApplicationConfig extends SpringBootServletInitializer {
+	public static void main(String[] args) {
+		SpringApplication.run(ApplicationConfig.class, args);
+	}
 
-/**
- * @author Jon Brisbin
- */
-@Configuration
-@ComponentScan(basePackageClasses = ApplicationConfig.class)
-@EnableJpaRepositories
-@EnableTransactionManagement
-public class ApplicationConfig {
+	@Autowired
+	private PersonRepository people;
+	@Autowired
+	private AddressRepository addresses;
+	@Autowired
+	private ProfileRepository profiles;
 
-  @Bean public DataSource dataSource() {
-    EmbeddedDatabaseBuilder builder = new EmbeddedDatabaseBuilder();
-    return builder.setType(EmbeddedDatabaseType.HSQL).build();
-  }
-
-  @Bean public EntityManagerFactory entityManagerFactory() {
-    HibernateJpaVendorAdapter vendorAdapter = new HibernateJpaVendorAdapter();
-    vendorAdapter.setDatabase(Database.HSQL);
-    vendorAdapter.setGenerateDdl(true);
-
-    LocalContainerEntityManagerFactoryBean factory = new LocalContainerEntityManagerFactoryBean();
-    factory.setJpaVendorAdapter(vendorAdapter);
-    factory.setPackagesToScan(getClass().getPackage().getName());
-    factory.setDataSource(dataSource());
-
-    factory.afterPropertiesSet();
-
-    return factory.getObject();
-  }
-
-  @Bean public JpaDialect jpaDialect() {
-    return new HibernateJpaDialect();
-  }
-
-  @Bean public PlatformTransactionManager transactionManager() {
-    JpaTransactionManager txManager = new JpaTransactionManager();
-    txManager.setEntityManagerFactory(entityManagerFactory());
-    return txManager;
-  }
-
+	@PostConstruct
+	private void load() {
+		Map<String, Profile> profs = new HashMap<String, Profile>();
+		profs.put("twitter", profiles.save(new Profile("twitter", "http://twitter.com/john_doe")));
+		people.save(new Person("John Doe",
+				Arrays.asList(addresses.save(new Address(Arrays.asList("123 W. 1st St."), "Univille", "US", "12345"))),
+				profs));
+	}
 }

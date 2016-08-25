@@ -1,9 +1,6 @@
 package org.springframework.data.rest.example;
 
-import org.springframework.data.repository.CrudRepository;
+import org.springframework.data.repository.PagingAndSortingRepository;
 
-/**
- * @author Jon Brisbin <jon@jbrisbin.com>
- */
-public interface ProfileRepository extends CrudRepository<Profile, Long> {
+public interface ProfileRepository extends PagingAndSortingRepository<Profile, Long> {
 }

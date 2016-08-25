@@ -1,9 +1,10 @@
 package org.springframework.data.rest.example;
 
-import org.springframework.data.repository.CrudRepository;
+import java.util.List;
 
-/**
- * @author Jon Brisbin <jon@jbrisbin.com>
- */
-public interface AddressRepository extends CrudRepository<Address, Long> {
+import org.springframework.data.repository.PagingAndSortingRepository;
+import org.springframework.data.repository.query.Param;
+
+public interface AddressRepository extends PagingAndSortingRepository<Address, Long> {
+	public List<Address> findByCity(@Param("city") String city);
 }
