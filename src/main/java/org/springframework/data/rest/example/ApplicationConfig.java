@@ -1,7 +1,6 @@
 package org.springframework.data.rest.example;
 
 import java.util.Arrays;
-import javax.annotation.PostConstruct;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
 import org.springframework.boot.web.servlet.FilterRegistrationBean;
@@ -18,8 +17,8 @@ public class ApplicationConfig extends SpringBootServletInitializer {
 	@Autowired
 	private ProfileRepository profiles;
 
-	@PostConstruct
-	private void load() {
+	//@javax.annotation.PostConstruct
+	void load() {
 		people.save(new Person("John Doe",
 				Arrays.asList(addresses.save(new Address(Arrays.asList("123 W. 1st St."), "Univille", "US", "12345"))),
 				Arrays.asList(profiles.save(new Profile("twitter", "http://twitter.com/john_doe")))));
@@ -33,7 +32,7 @@ public class ApplicationConfig extends SpringBootServletInitializer {
 		requestDumperFilter.setMaxPayloadLength(1000);
 		//requestDumperFilter.setIncludeClientInfo(true);
 		//requestDumperFilter.setIncludeHeaders(true);
-		//requestDumperFilter.setIncludeQueryString(true);
+		requestDumperFilter.setIncludeQueryString(true);
 		registration.setFilter(requestDumperFilter);
 		registration.addUrlPatterns("/*");
 		return registration;
