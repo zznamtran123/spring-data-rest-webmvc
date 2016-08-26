@@ -1,8 +1,6 @@
 package org.springframework.data.rest.example;
 
 import java.util.List;
-import java.util.Map;
-import java.util.HashMap;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
 import javax.persistence.Id;
@@ -21,12 +19,12 @@ public class Person {
 	@OneToMany
 	private List<Address> addresses;
 	@OneToMany
-	private Map<String, Profile> profiles = new HashMap<>();
+	private List<Profile> profiles;
 
 	public Person() {
 	}
 
-	public Person(String name, List<Address> addresses, Map<String, Profile> userProfiles) {
+	public Person(String name, List<Address> addresses, List<Profile> userProfiles) {
 		this.name = name;
 		this.addresses = addresses;
 		this.profiles = userProfiles;
@@ -60,11 +58,11 @@ public class Person {
 		this.addresses = addresses;
 	}
 
-	public Map<String, Profile> getProfiles() {
+	public List<Profile> getProfiles() {
 		return profiles;
 	}
 
-	public void setProfiles(Map<String, Profile> profiles) {
+	public void setProfiles(List<Profile> profiles) {
 		this.profiles = profiles;
 	}
 }

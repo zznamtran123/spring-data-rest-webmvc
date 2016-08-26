@@ -1,12 +1,13 @@
 package org.springframework.data.rest.example;
 
 import java.util.Arrays;
-import java.util.HashMap;
-import java.util.Map;
 import javax.annotation.PostConstruct;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.boot.web.servlet.FilterRegistrationBean;
 import org.springframework.boot.web.support.SpringBootServletInitializer;
+import org.springframework.context.annotation.Bean;
+import org.springframework.web.filter.CommonsRequestLoggingFilter;
 
 @SpringBootApplication
 public class ApplicationConfig extends SpringBootServletInitializer {
@@ -19,10 +20,22 @@ public class ApplicationConfig extends SpringBootServletInitializer {
 
 	@PostConstruct
 	private void load() {
-		Map<String, Profile> profs = new HashMap<String, Profile>();
-		profs.put("twitter", profiles.save(new Profile("twitter", "http://twitter.com/john_doe")));
 		people.save(new Person("John Doe",
 				Arrays.asList(addresses.save(new Address(Arrays.asList("123 W. 1st St."), "Univille", "US", "12345"))),
-				profs));
+				Arrays.asList(profiles.save(new Profile("twitter", "http://twitter.com/john_doe")))));
+	}
+
+	@Bean
+	public FilterRegistrationBean myFilter2() {
+		FilterRegistrationBean registration = new FilterRegistrationBean();
+		CommonsRequestLoggingFilter requestDumperFilter = new CommonsRequestLoggingFilter();
+		requestDumperFilter.setIncludePayload(true);
+		requestDumperFilter.setMaxPayloadLength(1000);
+		//requestDumperFilter.setIncludeClientInfo(true);
+		//requestDumperFilter.setIncludeHeaders(true);
+		//requestDumperFilter.setIncludeQueryString(true);
+		registration.setFilter(requestDumperFilter);
+		registration.addUrlPatterns("/*");
+		return registration;
 	}
 }
