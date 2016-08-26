@@ -1,6 +1,4 @@
 package org.springframework.data.rest.example;
 
-import org.springframework.data.repository.PagingAndSortingRepository;
-
-public interface ProfileRepository extends PagingAndSortingRepository<Profile, Long> {
+public interface ProfileRepository extends MyRepository<Profile, Long> {
 }

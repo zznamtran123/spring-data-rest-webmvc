@@ -3,3 +3,4 @@ build/
 .gradle/
 *.i*
 /target/
+/.apt_generated/
