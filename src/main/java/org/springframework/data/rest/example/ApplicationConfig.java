@@ -3,6 +3,7 @@ package org.springframework.data.rest.example;
 import java.util.Arrays;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.boot.autoconfigure.SpringBootApplication;
+import org.springframework.boot.SpringApplication;
 import org.springframework.boot.web.servlet.FilterRegistrationBean;
 import org.springframework.boot.web.support.SpringBootServletInitializer;
 import org.springframework.context.annotation.Bean;
@@ -18,6 +19,10 @@ public class ApplicationConfig extends SpringBootServletInitializer {
 	private AddressRepository addresses;
 	@Autowired
 	private ProfileRepository profiles;
+
+	public static void main(String[] args) {
+		SpringApplication.run(ApplicationConfig.class, args);
+	}
 
 	//@javax.annotation.PostConstruct
 	void load() {
