@@ -5,12 +5,8 @@
 	<artifactId>spring-data-rest-webmvc</artifactId>
 	<version>0.9.0-SNAPSHOT</version>
 	<packaging>war</packaging>
-	<parent>
-		<groupId>org.springframework.boot</groupId>
-                <artifactId>spring-boot-starter-parent</artifactId>
-                <version>1.4.0.RELEASE</version>
-	</parent>
-	<properties>
+	<properties>	
+		<failOnMissingWebXml>false</failOnMissingWebXml>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 		<maven.compiler.target>1.7</maven.compiler.target>
 		<maven.compiler.source>1.7</maven.compiler.source>
@@ -19,6 +15,20 @@
 	</properties>
 	<dependencyManagement>
 		<dependencies>
+			<dependency>
+                                <groupId>org.springframework.boot</groupId>
+                                <artifactId>spring-boot-dependencies</artifactId>
+                                <version>1.4.0.RELEASE</version>
+                                <type>pom</type>
+                                <scope>import</scope>
+                        </dependency>
+                        <dependency>
+                                <groupId>io.spring.platform</groupId>
+                                <artifactId>platform-bom</artifactId>
+                                <version>2.0.7.RELEASE</version>
+                                <type>pom</type>
+                                <scope>import</scope>
+                        </dependency>
 		</dependencies>
 	</dependencyManagement>
 	<dependencies>
